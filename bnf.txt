@@ -1,0 +1,48 @@
+<program> ::= {<component>}*
+
+<component>	::= <function>
+			| <line>
+			| <control-structure>
+
+<function> ::= fn <identifier> ( <parameter-list> ) <block> end
+
+<block> ::= {<inner-component>}*
+
+<inner-component>	::= <line>
+					| <control-structure>
+
+<line>	::= <declaration> 
+		| <assignment>
+		| <function-call>
+		| <return>
+
+<declaration> ::= var <identifier> = <expression>
+
+<assignment> ::= <identifier> = <expression>
+
+<function-call> ::= <identifier> ( <argument-list> ) 
+
+<parameter-list> ::= {<identifier> {, <identifier>}*}?
+
+<argument-list> ::= {<expression> {, <expression>}*}?
+
+<return> ::= return {<expression>}?
+
+<control-structure>	::= <if>
+					| <while>
+
+<if> ::= if <expression> then <block> {<else-if>}* {else <block>}? end
+
+<else-if> ::= else if <expression> then <block>
+
+<while> ::= while <expression> do <block> end
+
+<expression> ::= <unary-expression> {<binary-operator> <unary-expression>}*
+
+<unary-expression>	::= <primary-expression>
+					| <unary-operator> <unary-expression>
+
+<primary-expression>	::= <string-literal>
+						| <integer-literal>
+						| <identifier>
+						| ( <expression> )

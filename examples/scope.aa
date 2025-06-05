@@ -1,0 +1,10 @@
+var foo = 10
+print(foo)
+
+fn bar(foo)
+	print(foo)
+	var foo = 30
+	print(foo)
+end
+
+bar(20)
