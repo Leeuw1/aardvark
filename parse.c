@@ -369,10 +369,20 @@ bool parseExpression(const Token** t, const Token* const end, ParseNode* parent)
 		++*t;
 		if (iteration > 0 && precedence <= prevPrecedence) {
 			parseNodeMerge(parent);
-			ParseNode* node = &_savedParent->children[_savedParent->childCount - 1];
-			while (_precedence(node->syntax) <= _precedence(node->children[node->childCount - 1].syntax)) {
-				node = &node->children[node->childCount - 1];
+			ParseNode* it = &_savedParent->children[_savedParent->childCount - 1];
+			ParseNode* node = NULL;
+			while (it != parent) {
+				assert(it->childCount != 0);
+				ParseNode* next = &it->children[it->childCount - 1];
+				if (_precedence(s) > _precedence(it->syntax)) {
+					node = NULL;
+				}
+				else if (node == NULL) {
+					node = it;
+				}
+				it = next;
 			}
+			assert(node != NULL);
 			ParseNode new;
 			parseNodeCreate(&new, s);
 			new.childCount = 1;
